@@ -1,7 +1,7 @@
 /**
  * sync-google-calendar — Supabase Edge Function
  *
- * Pulls events from the church's Google Calendar and upserts them into the
+ * Pulls events from all church Google Calendars and upserts them into the
  * `events` table as `pending`. Staff approve or decline in the admin panel
  * before events become visible in the app.
  *
@@ -14,9 +14,10 @@
  *   );
  *
  * Required secrets (set via `supabase secrets set`):
- *   GOOGLE_CALENDAR_ID       — e.g. abc123@group.calendar.google.com
+ *   GOOGLE_CALENDAR_IDS      — comma-separated list of Google Calendar IDs
+ *                              e.g. "cal1@group.calendar.google.com,cal2@group.calendar.google.com"
  *   GOOGLE_CALENDAR_API_KEY  — Google Cloud API key with Calendar API enabled
- *                              (calendar must be set to "Public" visibility)
+ *                              (each calendar must be set to "Public" visibility)
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
@@ -146,77 +147,92 @@ async function fetchAllGCalEvents(
 
 Deno.serve(async (_req) => {
   try {
-    const calendarId = Deno.env.get('GOOGLE_CALENDAR_ID')
+    const calendarIdsRaw = Deno.env.get('GOOGLE_CALENDAR_IDS')
     const apiKey = Deno.env.get('GOOGLE_CALENDAR_API_KEY')
 
-    if (!calendarId || !apiKey) {
+    if (!calendarIdsRaw || !apiKey) {
       return json(
-        { error: 'Missing GOOGLE_CALENDAR_ID or GOOGLE_CALENDAR_API_KEY secrets' },
+        { error: 'Missing GOOGLE_CALENDAR_IDS or GOOGLE_CALENDAR_API_KEY secrets' },
         400,
       )
     }
+
+    const calendarIds = calendarIdsRaw
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean)
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, // bypass RLS for upserts
     )
 
-    const gcalEvents = await fetchAllGCalEvents(calendarId, apiKey)
-
-    // Filter out cancelled events
-    const active = gcalEvents.filter((e) => e.status !== 'cancelled')
-
+    let totalFetched = 0
     let inserted = 0
     let updated = 0
     const errors: string[] = []
 
-    for (const gcalEvent of active) {
+    for (const calendarId of calendarIds) {
+      let gcalEvents: GCalEvent[]
       try {
-        const mapped = mapEvent(gcalEvent, calendarId)
-
-        // Check if we already have this event
-        const { data: existing } = await supabase
-          .from('events')
-          .select('id, status')
-          .eq('google_calendar_event_id', gcalEvent.id)
-          .maybeSingle()
-
-        if (existing) {
-          // Update mutable fields — NEVER touch `status` (preserves approved/declined)
-          const { error } = await supabase
-            .from('events')
-            .update({
-              title: mapped.title,
-              description: mapped.description,
-              location: mapped.location,
-              starts_at: mapped.starts_at,
-              ends_at: mapped.ends_at,
-              is_recurring: mapped.is_recurring,
-              recurrence_rule: mapped.recurrence_rule,
-            })
-            .eq('id', existing.id)
-
-          if (error) errors.push(`update ${gcalEvent.id}: ${error.message}`)
-          else updated++
-        } else {
-          // Brand-new event — insert as pending for staff review
-          const { error } = await supabase
-            .from('events')
-            .insert({ ...mapped, status: 'pending' })
-
-          if (error) errors.push(`insert ${gcalEvent.id}: ${error.message}`)
-          else inserted++
-        }
+        gcalEvents = await fetchAllGCalEvents(calendarId, apiKey)
       } catch (e) {
-        errors.push(
-          `${gcalEvent.id}: ${e instanceof Error ? e.message : String(e)}`,
-        )
+        errors.push(`fetch ${calendarId}: ${e instanceof Error ? e.message : String(e)}`)
+        continue
+      }
+
+      const active = gcalEvents.filter((e) => e.status !== 'cancelled')
+      totalFetched += active.length
+
+      for (const gcalEvent of active) {
+        try {
+          const mapped = mapEvent(gcalEvent, calendarId)
+
+          // Check if we already have this event
+          const { data: existing } = await supabase
+            .from('events')
+            .select('id, status')
+            .eq('google_calendar_event_id', gcalEvent.id)
+            .maybeSingle()
+
+          if (existing) {
+            // Update mutable fields — NEVER touch `status` (preserves approved/declined)
+            const { error } = await supabase
+              .from('events')
+              .update({
+                title: mapped.title,
+                description: mapped.description,
+                location: mapped.location,
+                starts_at: mapped.starts_at,
+                ends_at: mapped.ends_at,
+                is_recurring: mapped.is_recurring,
+                recurrence_rule: mapped.recurrence_rule,
+              })
+              .eq('id', existing.id)
+
+            if (error) errors.push(`update ${gcalEvent.id}: ${error.message}`)
+            else updated++
+          } else {
+            // Brand-new event — insert as pending for staff review
+            const { error } = await supabase
+              .from('events')
+              .insert({ ...mapped, status: 'pending' })
+
+            if (error) errors.push(`insert ${gcalEvent.id}: ${error.message}`)
+            else inserted++
+          }
+        } catch (e) {
+          errors.push(
+            `${gcalEvent.id}: ${e instanceof Error ? e.message : String(e)}`,
+          )
+        }
       }
     }
 
     return json({
       success: true,
-      fetched: active.length,
+      calendars: calendarIds.length,
+      fetched: totalFetched,
       inserted,
       updated,
       ...(errors.length > 0 && { errors }),
