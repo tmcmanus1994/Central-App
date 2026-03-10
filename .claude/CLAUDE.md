@@ -23,7 +23,7 @@ Colors — constants/colors.ts
 ts
 export const Colors = {   light: {     text: { primary: '#1A1611', secondary: '#5A5248', accent: '#C8973A' },     bg: { page: '#FDFAF4', card: '#FFFFFF', elevated: '#F5F0E8' },     border: 'rgba(200, 151, 58, 0.2)',     gold: '#C8973A',   },   dark: {     text: { primary: '#F5F0E8', secondary: '#B0A898', accent: '#E8C06A' },     bg: { page: '#0D0B08', card: '#1A1611', elevated: '#2A2015' },     border: 'rgba(200, 151, 58, 0.18)',     gold: '#E8C06A',   }, };
 Typography
-TokenFontSizeWeightdisplay/xlCormorant Garamond40sp600display/lgCormorant Garamond32sp600display/mdCormorant Garamond24sp400body/lgDM Sans17sp400body/mdDM Sans15sp400body/smDM Sans13sp400label/lgDM Sans14sp600label/mdDM Sans12sp500label/smDM Sans10sp500
+TokenFontSizeWeightdisplay/xlLora40sp600display/lgLora32sp600display/mdLora24sp400body/lgPoppins17sp400body/mdPoppins15sp400body/smPoppins13sp400label/lgPoppins14sp600label/mdPoppins12sp500label/smPoppins10sp500
 Spacing (8pt grid — multiples of 4/8 only)
 TokenValuespace/416pt (default screen margin)space/624pt (section spacing)space/832pt (major breaks)radius/md12pt (cards, modals, inputs)radius/lg20pt (bottom sheets)radius/full999pt (pills, avatars)
 Bottom nav height: 80pt. Minimum tap target: 44x44pt. Always use useSafeAreaInsets().

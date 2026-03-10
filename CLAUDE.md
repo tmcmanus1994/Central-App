@@ -134,15 +134,15 @@ export const Colors = {
 
 | Token | Font | Size | Weight |
 |---|---|---|---|
-| display/xl | Cormorant Garamond | 40sp | 600 |
-| display/lg | Cormorant Garamond | 32sp | 600 |
-| display/md | Cormorant Garamond | 24sp | 400 |
-| body/lg | DM Sans | 17sp | 400 |
-| body/md | DM Sans | 15sp | 400 |
-| body/sm | DM Sans | 13sp | 400 |
-| label/lg | DM Sans | 14sp | 600 |
-| label/md | DM Sans | 12sp | 500 |
-| label/sm | DM Sans | 10sp | 500 |
+| display/xl | Lora | 40sp | 600 |
+| display/lg | Lora | 32sp | 600 |
+| display/md | Lora | 24sp | 400 |
+| body/lg | Poppins | 17sp | 400 |
+| body/md | Poppins | 15sp | 400 |
+| body/sm | Poppins | 13sp | 400 |
+| label/lg | Poppins | 14sp | 600 |
+| label/md | Poppins | 12sp | 500 |
+| label/sm | Poppins | 10sp | 500 |
 
 ### Spacing (8pt grid — multiples of 4/8 only)
 
