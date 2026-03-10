@@ -32,6 +32,7 @@ export function useEvents() {
     supabase
       .from('events')
       .select('*')
+      .eq('status', 'approved')
       .order('starts_at', { ascending: true })
       .then(({ data, error }) => {
         if (error) {

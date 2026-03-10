@@ -2,6 +2,7 @@ export type UserRole = 'guest' | 'member' | 'staff' | 'elder';
 export type PrayerStatus = 'pending' | 'approved' | 'declined';
 export type PrayerCategory = 'Health' | 'Church' | 'Family' | 'Community' | 'Outreach';
 export type EventType = 'general' | 'info_cta' | 'signup';
+export type EventStatus = 'pending' | 'approved' | 'declined';
 export type CtaType = 'none' | 'signup_link' | 'contact_person' | 'register_form';
 export type AnnouncementStatus = 'live' | 'draft' | 'archived';
 export type PodcastSource = 'rss' | 'manual';
@@ -57,6 +58,7 @@ export interface Event {
   ends_at: string;
   category: string;
   event_type: EventType;
+  status: EventStatus;
   is_recurring: boolean;
   recurrence_rule: string | null;
   cta_type: CtaType;
@@ -65,7 +67,9 @@ export interface Event {
   contact_phone: string | null;
   contact_email: string | null;
   is_featured: boolean;
-  created_by: string;
+  google_calendar_event_id: string | null;
+  google_calendar_id: string | null;
+  created_by: string | null;
   created_at: string;
 }
 
