@@ -7,6 +7,7 @@ import { useColorScheme } from '../../hooks/useColorScheme';
 import { useAuth } from '../../hooks/useAuth';
 import { Colors, DANGER_COLOR } from '../../constants/colors';
 import { supabase } from '../../lib/supabase';
+import { logoutOneSignalUser } from '../../lib/onesignal';
 
 interface RowProps {
   icon: React.ReactNode;
@@ -84,6 +85,7 @@ export default function MoreScreen() {
         text: 'Sign Out',
         style: 'destructive',
         onPress: async () => {
+          logoutOneSignalUser();
           await supabase.auth.signOut();
         },
       },
@@ -161,8 +163,8 @@ export default function MoreScreen() {
         <Separator />
         <SettingsRow
           icon={<Bell size={18} color={colors.text.secondary} />}
-          label="Notifications"
-          value="Coming soon"
+          label="Notification Preferences"
+          onPress={() => router.push('/push-opt-in')}
         />
       </SectionCard>
 
