@@ -15,20 +15,9 @@ import * as Calendar from 'expo-calendar';
 import { MapPin, Clock, ArrowLeft, Phone, Mail, ExternalLink, User } from 'lucide-react-native';
 import { format } from 'date-fns';
 import { useColorScheme } from '../../hooks/useColorScheme';
-import { Colors } from '../../constants/colors';
+import { Colors, CATEGORY_COLORS, WHITE } from '../../constants/colors';
 import { supabase } from '../../lib/supabase';
 import type { Event } from '../../types/database';
-
-const CATEGORY_COLORS: Record<string, string> = {
-  Worship: '#C8973A',
-  Ministry: '#7C6F5E',
-  Teen: '#5A8FA8',
-  Womens: '#A87C8F',
-  Mens: '#5A7CA8',
-  Recreation: '#5A9E6F',
-  Outreach: '#9E7A5A',
-  General: '#7C6F5E',
-};
 
 function formatTimeRange(startsAt: string, endsAt: string): string {
   const start = new Date(startsAt);
@@ -242,8 +231,8 @@ export default function EventDetailScreen() {
               onPress={handleCTA}
               activeOpacity={0.85}
             >
-              <ExternalLink size={16} color="#fff" />
-              <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: '#fff' }}>
+              <ExternalLink size={16} color={WHITE} />
+              <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: WHITE }}>
                 {event.cta_type === 'register_form' ? 'Register' : 'Sign Up'}
               </Text>
             </TouchableOpacity>

@@ -30,3 +30,21 @@ export const Colors = {
 } as const;
 
 export type ColorScheme = keyof typeof Colors;
+
+/** Semantic color for destructive/danger actions. Not theme-dependent. */
+export const DANGER_COLOR = '#E05555';
+
+/** White — for text/icons placed on colored (e.g. gold) backgrounds. */
+export const WHITE = '#FFFFFF';
+
+/** Per-category accent colors used on event cards and detail screens. */
+export const CATEGORY_COLORS: Record<string, string> = {
+  Worship: '#C8973A',
+  Ministry: '#7C6F5E',
+  Teen: '#5A8FA8',
+  Womens: '#A87C8F',
+  Mens: '#5A7CA8',
+  Recreation: '#5A9E6F',
+  Outreach: '#9E7A5A',
+  General: '#7C6F5E',
+};

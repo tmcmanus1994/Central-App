@@ -1,7 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import { MapPin, Clock, ChevronRight, ExternalLink } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
-import { Colors } from '../../constants/colors';
+import { Colors, CATEGORY_COLORS } from '../../constants/colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { formatEventDate } from '../../lib/utils';
 import type { EventOccurrence } from '../../types/app';
@@ -11,16 +11,6 @@ interface Props {
   onPress?: (event: EventOccurrence) => void;
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Worship: '#C8973A',
-  Ministry: '#7C6F5E',
-  Teen: '#5A8FA8',
-  Womens: '#A87C8F',
-  Mens: '#5A7CA8',
-  Recreation: '#5A9E6F',
-  Outreach: '#9E7A5A',
-  General: '#7C6F5E',
-};
 
 function formatTimeRange(startsAt: string, endsAt: string): string {
   const start = new Date(startsAt);

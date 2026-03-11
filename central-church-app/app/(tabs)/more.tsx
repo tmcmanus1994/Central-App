@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { User, Bell, Shield, LogOut, ChevronRight, Info } from 'lucide-react-native';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { useAuth } from '../../hooks/useAuth';
-import { Colors } from '../../constants/colors';
+import { Colors, DANGER_COLOR } from '../../constants/colors';
 import { supabase } from '../../lib/supabase';
 
 interface RowProps {
@@ -32,7 +32,7 @@ function SettingsRow({ icon, label, value, onPress, danger = false }: RowProps) 
         style={{
           fontFamily: 'Poppins_400Regular',
           fontSize: 15,
-          color: danger ? '#E05555' : colors.text.primary,
+          color: danger ? DANGER_COLOR : colors.text.primary,
           flex: 1,
         }}
       >
@@ -156,13 +156,13 @@ export default function MoreScreen() {
         <SettingsRow
           icon={<User size={18} color={colors.text.secondary} />}
           label="Edit Profile"
-          onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+          value="Coming soon"
         />
         <Separator />
         <SettingsRow
           icon={<Bell size={18} color={colors.text.secondary} />}
           label="Notifications"
-          onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+          value="Coming soon"
         />
       </SectionCard>
 
@@ -174,7 +174,7 @@ export default function MoreScreen() {
         <SettingsRow
           icon={<Shield size={18} color={colors.text.secondary} />}
           label="Privacy Policy"
-          onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+          value="Coming soon"
         />
         <Separator />
         <SettingsRow
@@ -187,7 +187,7 @@ export default function MoreScreen() {
       {/* Sign out */}
       <SectionCard>
         <SettingsRow
-          icon={<LogOut size={18} color="#E05555" />}
+          icon={<LogOut size={18} color={DANGER_COLOR} />}
           label="Sign Out"
           onPress={handleSignOut}
           danger
