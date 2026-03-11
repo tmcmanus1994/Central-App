@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CalendarX2 } from 'lucide-react-native';
@@ -17,9 +17,11 @@ export default function EventsScreen() {
 
   function handleEventPress(event: EventOccurrence) {
     if (event.event_type === 'info_cta') {
+      // Type B: open detail sheet with description + CTA
       router.push(`/event/${event.id}`);
     } else if (event.event_type === 'signup' && event.cta_value) {
-      router.push(`/event/${event.id}`);
+      // Type C: register button on card opens URL directly — no detail modal
+      Linking.openURL(event.cta_value);
     }
   }
 
