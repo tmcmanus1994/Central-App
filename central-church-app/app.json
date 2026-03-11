@@ -12,16 +12,27 @@
       "resizeMode": "contain",
       "backgroundColor": "#FDFAF4"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/REPLACE_WITH_EAS_PROJECT_ID"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.centralchurch.app"
+      "bundleIdentifier": "com.centralchurch.app",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FDFAF4"
       },
-      "package": "com.centralchurch.app"
+      "package": "com.centralchurch.app",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -41,10 +52,22 @@
         {
           "calendarPermission": "Central Church needs calendar access to add events."
         }
+      ],
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "production",
+          "devTeam": "REPLACE_WITH_APPLE_TEAM_ID"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      }
     }
   }
 }
