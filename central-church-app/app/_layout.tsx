@@ -38,8 +38,8 @@ function AuthGate() {
     // Link OneSignal user identity to our Supabase user
     loginOneSignalUser(session.user.id);
 
-    // Wait for profile to load before making routing decisions
-    if (profile === null) return;
+    // Wait for profile to load before making routing decisions (undefined = in flight)
+    if (profile === undefined) return;
 
     // First-time push opt-in: push_categories null means never set up
     if (profile.push_categories === null && !onOptIn) {
@@ -86,6 +86,7 @@ export default function RootLayout() {
         <Stack.Screen name="event/[id]" options={{ presentation: 'modal' }} />
         <Stack.Screen name="prayer/submit" options={{ presentation: 'modal' }} />
         <Stack.Screen name="member/[id]" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="directory" />
         <Stack.Screen name="sermon/[id]" options={{ presentation: 'modal' }} />
       </Stack>
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />

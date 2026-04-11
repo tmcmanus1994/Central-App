@@ -44,6 +44,12 @@ export default function SubmitPrayerScreen() {
       ? 'Anonymous'
       : profile?.full_name ?? 'Anonymous';
 
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(today.setDate(diff));
+    const weekOf = monday.toISOString().split('T')[0];
+
     const { error: insertError } = await supabase.from('prayer_requests').insert({
       user_id: user?.id ?? null,
       display_name: displayName,
@@ -51,6 +57,7 @@ export default function SubmitPrayerScreen() {
       category,
       is_anonymous: isAnonymous,
       status: 'pending',
+      week_of: weekOf,
     });
 
     setIsLoading(false);

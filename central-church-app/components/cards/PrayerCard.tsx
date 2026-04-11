@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { HeartHandshake } from 'lucide-react-native';
 import { useColorScheme } from '../../hooks/useColorScheme';
-import { Colors } from '../../constants/colors';
+import { Colors, PRAYER_CATEGORY_COLORS } from '../../constants/colors';
 import { formatPrayerDate } from '../../lib/utils';
 import type { PrayerRequest } from '../../types/database';
 
@@ -12,18 +12,10 @@ interface PrayerCardProps {
   onPray: (id: string) => void;
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Health: '#EF4444',
-  Church: '#C8973A',
-  Family: '#8B5CF6',
-  Community: '#3B82F6',
-  Outreach: '#10B981',
-};
-
 export function PrayerCard({ prayer, hasPrayed, onPray }: PrayerCardProps) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme];
-  const categoryColor = CATEGORY_COLORS[prayer.category] ?? colors.gold;
+  const categoryColor = PRAYER_CATEGORY_COLORS[prayer.category] ?? colors.gold;
 
   const handlePray = () => {
     if (hasPrayed) return;

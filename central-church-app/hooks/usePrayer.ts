@@ -10,10 +10,17 @@ export function usePrayer() {
   const fetchPrayers = async () => {
     setState({ status: 'loading' });
 
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(today.setDate(diff));
+    const weekOf = monday.toISOString().split('T')[0];
+
     const { data, error } = await supabase
       .from('prayer_requests')
       .select('*')
       .eq('status', 'approved')
+      .eq('week_of', weekOf)
       .order('is_pinned', { ascending: false })
       .order('created_at', { ascending: true });
 

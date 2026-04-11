@@ -28,11 +28,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FDFAF4"
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.centralchurch.app",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.centralchurch.app"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -62,7 +62,7 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": false
     },
     "extra": {
       "eas": {

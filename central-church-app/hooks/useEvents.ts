@@ -45,7 +45,10 @@ export function useEvents() {
 
         for (const event of events) {
           if (event.is_recurring && event.recurrence_rule) {
-            occurrences.push(...expandRecurringEvent(event));
+            const recurring = expandRecurringEvent(event).filter(
+              (e) => e.occurrence_date.toISOString() >= now && e.occurrence_date.toISOString() <= in30Days
+            );
+            occurrences.push(...recurring);
           } else if (event.starts_at >= now && event.starts_at <= in30Days) {
             occurrences.push({ ...event, occurrence_date: new Date(event.starts_at) });
           }

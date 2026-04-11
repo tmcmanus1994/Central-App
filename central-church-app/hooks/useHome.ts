@@ -42,20 +42,12 @@ export function useHome() {
         .limit(2),
     ]);
 
-    if (eventRes.error || sermonRes.error || announcementsRes.error) {
-      setState({
-        status: 'error',
-        message: eventRes.error?.message ?? sermonRes.error?.message ?? announcementsRes.error?.message ?? 'Unknown error',
-      });
-      return;
-    }
-
     setState({
       status: 'success',
       data: {
-        featuredEvent: eventRes.data ?? null,
-        latestSermon: sermonRes.data ?? null,
-        announcements: announcementsRes.data ?? [],
+        featuredEvent: eventRes.error ? null : (eventRes.data ?? null),
+        latestSermon: sermonRes.error ? null : (sermonRes.data ?? null),
+        announcements: announcementsRes.error ? [] : (announcementsRes.data ?? []),
       },
     });
   };

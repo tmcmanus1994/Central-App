@@ -37,6 +37,15 @@ export const DANGER_COLOR = '#E05555';
 /** White — for text/icons placed on colored (e.g. gold) backgrounds. */
 export const WHITE = '#FFFFFF';
 
+/** Per-category accent colors for prayer requests. */
+export const PRAYER_CATEGORY_COLORS: Record<string, string> = {
+  Health: '#EF4444',
+  Church: '#C8973A',
+  Family: '#8B5CF6',
+  Community: '#3B82F6',
+  Outreach: '#10B981',
+};
+
 /** Per-category accent colors used on event cards and detail screens. */
 export const CATEGORY_COLORS: Record<string, string> = {
   Worship: '#C8973A',

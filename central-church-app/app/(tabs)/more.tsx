@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { User, Bell, Shield, LogOut, ChevronRight, Info } from 'lucide-react-native';
+import { User, Bell, Shield, LogOut, ChevronRight, Info, BookUser } from 'lucide-react-native';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { useAuth } from '../../hooks/useAuth';
 import { Colors, DANGER_COLOR } from '../../constants/colors';
@@ -159,6 +159,12 @@ export default function MoreScreen() {
           icon={<User size={18} color={colors.text.secondary} />}
           label="Edit Profile"
           value="Coming soon"
+        />
+        <Separator />
+        <SettingsRow
+          icon={<BookUser size={18} color={colors.text.secondary} />}
+          label="Member Directory"
+          onPress={() => router.push('/directory')}
         />
         <Separator />
         <SettingsRow

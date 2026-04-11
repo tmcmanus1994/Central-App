@@ -5,10 +5,10 @@ import type { Profile } from '../types/database';
 interface AuthState {
   session: Session | null;
   user: User | null;
-  profile: Profile | null;
+  profile: Profile | null | undefined;
   isLoading: boolean;
   setSession: (session: Session | null) => void;
-  setProfile: (profile: Profile | null) => void;
+  setProfile: (profile: Profile | null | undefined) => void;
   setLoading: (isLoading: boolean) => void;
   reset: () => void;
 }
@@ -16,7 +16,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   session: null,
   user: null,
-  profile: null,
+  profile: undefined,
   isLoading: true,
   setSession: (session) =>
     set({ session, user: session?.user ?? null }),

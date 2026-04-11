@@ -25,14 +25,22 @@ export function useAuth() {
       return;
     }
 
-    supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single()
-      .then(({ data }) => {
+    setProfile(undefined); // mark as loading
+
+    (async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Failed to load profile:', error.message);
+        setProfile(null);
+      } else {
         setProfile(data ?? null);
-      });
+      }
+    })();
   }, [user?.id]);
 
   return { session, user, profile, isLoading, reset };

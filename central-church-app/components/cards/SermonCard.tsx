@@ -9,9 +9,10 @@ import { format } from 'date-fns';
 
 interface SermonCardProps {
   sermon: Sermon;
+  showFeaturedBadge?: boolean;
 }
 
-export function SermonCard({ sermon }: SermonCardProps) {
+export function SermonCard({ sermon, showFeaturedBadge = true }: SermonCardProps) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme];
 
@@ -28,14 +29,16 @@ export function SermonCard({ sermon }: SermonCardProps) {
       activeOpacity={0.75}
     >
       <View className="p-4">
-        <View
-          className="self-start px-2 py-0.5 rounded-full mb-3"
-          style={{ backgroundColor: colors.bg.elevated }}
-        >
-          <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: colors.gold }}>
-            Latest Sermon
-          </Text>
-        </View>
+        {showFeaturedBadge && (
+          <View
+            className="self-start px-2 py-0.5 rounded-full mb-3"
+            style={{ backgroundColor: colors.bg.elevated }}
+          >
+            <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: colors.gold }}>
+              Latest Sermon
+            </Text>
+          </View>
+        )}
 
         <Text style={{ fontFamily: 'Lora_600SemiBold', fontSize: 18, color: colors.text.primary, marginBottom: 4 }}>
           {sermon.title}

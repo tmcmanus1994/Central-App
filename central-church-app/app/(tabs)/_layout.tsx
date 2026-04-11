@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { Colors } from '../../constants/colors';
-import { Home, HeartHandshake, CalendarDays, MoreHorizontal } from 'lucide-react-native';
+import { Home, HeartHandshake, Megaphone, PlayCircle, CalendarDays, Users, MoreHorizontal } from 'lucide-react-native';
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
@@ -42,10 +42,31 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="announcements"
+        options={{
+          title: 'News',
+          tabBarIcon: ({ color, size }) => <Megaphone color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="media"
+        options={{
+          title: 'Media',
+          tabBarIcon: ({ color, size }) => <PlayCircle color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
         name="events"
         options={{
           title: 'Events',
           tabBarIcon: ({ color, size }) => <CalendarDays color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="connect"
+        options={{
+          title: 'Connect',
+          tabBarIcon: ({ color, size }) => <Users color={color} size={size} />,
         }}
       />
       <Tabs.Screen

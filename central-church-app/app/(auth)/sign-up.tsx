@@ -53,6 +53,7 @@ export default function SignUpScreen() {
         email: email.trim().toLowerCase(),
         role: 'guest',
         is_verified: false,
+        push_categories: null,
       });
     }
 
